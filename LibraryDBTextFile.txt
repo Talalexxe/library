@@ -31,6 +31,7 @@ CREATE TABLE `admin` (
   `AdminID` int(11) NOT NULL,
   `FirstName` varchar(50) NOT NULL,
   `LastName` varchar(50) NOT NULL,
+  `username` varchar(25) NOT NULL,
   `Email` varchar(75) NOT NULL,
   `AdminPassword` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -61,10 +62,8 @@ CREATE TABLE `borrowed_books` (
   `LoanID` int(11) NOT NULL,
   `BookID` int(11) NOT NULL,
   `UserID` int(11) NOT NULL,
-  `AdminID` int(11) NOT NULL,
   `DateBorrowed` date NOT NULL,
   `ReturnDate` date NOT NULL,
-  `LoanStatus` enum('Returned','Not Returned') NOT NULL,
   `FineAmount` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -80,6 +79,21 @@ CREATE TABLE `fines_payment` (
   `LoanID` int(11) NOT NULL,
   `Amount` float NOT NULL,
   `PaymentDate` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `returned_books`
+--
+
+CREATE TABLE `returned_books` (
+  `ReturnID` int(11) NOT NULL,
+  `LoanID` int(11) NOT NULL,
+  `BookID` int(11) NOT NULL,
+  `UserID` int(11) NOT NULL,
+  `DateBorrowed` date NOT NULL,
+  `DateReturned` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -119,9 +133,7 @@ ALTER TABLE `books`
 --
 ALTER TABLE `borrowed_books`
   ADD PRIMARY KEY (`LoanID`),
-  ADD UNIQUE KEY `Books` (`BookID`),
-  ADD UNIQUE KEY `Users` (`UserID`),
-  ADD UNIQUE KEY `Admin` (`AdminID`);
+  ADD UNIQUE KEY `Books` (`BookID`);
 
 --
 -- Indexes for table `fines_payment`
@@ -130,6 +142,13 @@ ALTER TABLE `fines_payment`
   ADD PRIMARY KEY (`PaymentID`),
   ADD UNIQUE KEY `Borrowed_Books` (`LoanID`),
   ADD UNIQUE KEY `Users` (`UserID`);
+  
+--
+-- Indexes for table `returned_books`
+--
+ALTER TABLE `returned_books`
+  ADD PRIMARY KEY (`ReturnID`),
+  ADD UNIQUE KEY `borrowed_books` (`LoanID`);
 
 --
 -- Indexes for table `users`
