@@ -11,6 +11,22 @@
           #f2dcb1
           #dc8920;
 }
+.error, .success {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.error {
+    background-color: #f2dede;
+    color: #a94442;
+}
+
+.success {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
 
 
 
@@ -28,12 +44,18 @@ body {
 }
 
 
+.navbar{
+    display: flex;
+}
+.navbar image{
+    width: 150%;
+}
+
 .reg-container {
     position: relative; 
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
 .log-container {
@@ -41,7 +63,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
 .set-radius-zero {

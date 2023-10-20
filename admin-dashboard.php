@@ -1,11 +1,14 @@
 <?php
 session_start();
-include 'config.php';
+include 'config.php'; // Include the database connection configuration
 
-
-$user_role = $_SESSION['UserRole'];
-
-$user_id = $_SESSION['UserId']; // Get the user_id from the session
+if (isset($_SESSION['user_role'])) {
+    $user_role = $_SESSION['user_role'];
+    $user_id = $_SESSION['user_id'];
+} else {
+    $user_role = 'guest';
+    $user_id = ''; 
+}
 
 // Check the connection
 if (!$conn) {
@@ -14,7 +17,7 @@ if (!$conn) {
 
 try {
     // SQL query to count the number of books not returned for the current user
-    $sql = "SELECT COUNT(*) AS notReturnedBooks FROM borrowed_books WHERE UserID = $user_id AND LoanStatus = 'Not Returned'";
+    $sql = "SELECT COUNT(*) AS notReturnedBooks FROM borrowed_books WHERE UserID = $currentUserID AND LoanStatus = 'Not Returned'";
 
     // Execute the query
     $result = mysqli_query($conn, $sql);
@@ -44,30 +47,8 @@ try {
         // Fetch the result into an associative array
         $row = mysqli_fetch_assoc($result);
 
-        // Store the totalBooks count in variable
+        // Store the totalBooks count in a variable
         $totalBooks = $row['totalBooks'];
-    } else {
-        echo "Query failed: " . mysqli_error($conn);
-    }
-
-} catch (Exception $e) {
-    echo "Error: " . $e->getMessage();
-}
-
-
-try {
-    // SQL query to count the number of books issued to the current user
-    $sql = "SELECT COUNT(*) AS issuedBooks FROM borrowed_books WHERE UserID = $user_id";
-
-    // Execute the query
-    $result = mysqli_query($conn, $sql);
-
-    if ($result) {
-        // Fetch the result into an associative array
-        $row = mysqli_fetch_assoc($result);
-
-        // Store the count of issued books in a PHP variable
-        $issuedBooks = $row['issuedBooks'];
     } else {
         echo "Query failed: " . mysqli_error($conn);
     }
@@ -84,23 +65,22 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library Management System | User Dashboard</title>
-    <link href="css/bootstrap.css" rel="stylesheet" />
-    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/solid.js" integrity="sha384-/BxOvRagtVDn9dJ+JGCtcofNXgQO/CCCVKdMfL115s3gOgQxWaX/tSq5V8dRgsbc" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/fontawesome.js" integrity="sha384-dPBGbj4Uoy1OOpM4+aRGfAOc0W37JkROT+3uynUgTHZCHZNMHfGXsmmvYTffZjYO" crossorigin="anonymous"></script>
-    <link href="css/style.css" rel="stylesheet" />
-    <link href="css/bootstrap.css" rel="stylesheet" />
-
+        <!-- BOOTSTRAP CORE STYLE  -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONT AWESOME STYLE  -->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- CUSTOM STYLE  -->
+    <link href="assets/css/style.css" rel="stylesheet" />
 </head>
 <body>
-    <?php include('header.php'); ?>
-    <div class="content-wrapper">
+<div class="content-wrapper">
         <div class="container">
             <div class="row pad-botm">
                 <div class="col-md-12">
                     <h4 class="header-line">User DASHBOARD</h4>
                 </div>
             </div>
-            <div class="row" style="margin-top: 100px;">
+            <div class="row">
                 <a href="books.php">
                     <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="alert alert-success back-widget-set text-center">
@@ -113,7 +93,7 @@ mysqli_close($conn);
                 <div class="col-md-4 col-sm-4 col-xs-6">
                     <div class="alert alert-warning back-widget-set text-center">
                         <i class="fa fa-recycle fa-5x"></i>
-                        <h3><?php echo htmlentities($notReturnedBooks); ?></h3>
+                        <h3><?php echo htmlentities($returnedbooks); ?></h3>
                         Books Not Returned Yet
                     </div>
                 </div>
@@ -121,17 +101,13 @@ mysqli_close($conn);
                     <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="alert alert-success back-widget-set text-center">
                             <i class="fa fa-book fa-5x"></i>
-                            <h3><?php echo htmlentities($notReturnedBooks); ?></h3>
-                            Received Books
+                            <h3>&nbsp;</h3>
+                            Issued Books
                         </div>
                     </div>
                 </a>
             </div>
         </div>
     </div>
-    <?php include('footer.php'); ?>
-    <script src="js/jquery-1.10.2.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/custom.js"></script>
 </body>
 </html>

@@ -1,28 +1,52 @@
 <?php
-    session_start();
-    include 'config.php';
+session_start();
+include 'config.php';
 
-    if($_SERVER['REQUEST_METHOD']=='POST'){
-        $uname = $_POST["username"];
-        $password = $_POST["password"];
+$errorMessage = "";
+$successMessage = "";
 
-        $sql = "SELECT * FROM users WHERE Username = '$uname'";
-        $query = mysqli_query($conn,$sql);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = $_POST['password'];
 
-        if(mysqli_num_rows($query)==1){
-            $user = mysqli_fetch_assoc($query);
+    $query = "SELECT UserID, Password, UserRole FROM users WHERE Username = ?";
+    $stmt = mysqli_prepare($conn, $query);
 
-            if($user['Password']!=$password){
-                echo "Password incorrect. Try again";
-            }else{
-                $_SESSION['UserID'] = $user['UserID'] && $_SESSION['currentUserID'] = $currentUserID;;
-                header("Location:user-dashboard.php");
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $username);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if (mysqli_num_rows($result) === 1) {
+            $row = mysqli_fetch_assoc($result);
+            $dbPassword = $row['Password'];
+            $userRole = $row['UserRole'];
+            $userId = $row['UserID'];
+
+            mysqli_stmt_close($stmt);
+            mysqli_close($conn);
+
+            if ($password === $dbPassword) {
+                $_SESSION['UserId'] = $userId;
+                $_SESSION['UserRole'] = $userRole;
+
+                if ($userRole === 'Admin') {
+                    $successMessage = "Login successful! You can now log in.";
+                    header("refresh:1.5;url=admin-dashboard.php");
+                } else {
+                    $successMessage = "Login successful! You can now log in.";
+                    header("refresh:1.5;url=user-dashboard.php");
+                }
+            } else {
+                $errorMessage = "Incorrect Password.";
             }
-        }else{
-            echo "Incorrect username. Please try again";
+        } else {
+            $errorMessage = "Incorrect Username.";
         }
+    } else {
+        die("Prepare error: " . mysqli_error($conn));
     }
-
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,7 +60,19 @@
     <div class="log-container">
         <div class="login-box">
             <h2 class="login-header">User Login</h2>
-            <form class="login-form" action="login.php" method="post">
+            <div>
+                <?php if (!empty($errorMessage)) { ?>
+                <div class="error">
+                    <?php echo $errorMessage; ?>
+                </div>
+                <?php } elseif (!empty($successMessage)) { ?>
+                <div class="success">
+                    <?php echo $successMessage; ?>
+                </div>
+                <?php } ?>
+            </div>
+
+            <form class="login-form" action="login.php" method="POST">
                 <label for="username">Username</label><br>
                 <input type="text" name="username" id="username" required><br><br>
                 <label for="password">Password</label><br>
