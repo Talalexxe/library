@@ -6,11 +6,6 @@
     <title>KALDER LIBRARY</title>
 </head>
 <body>
-
-    <a href="view.php">View my Books</a>
-    <a href="borrow.php">Borrow Books</a>
-    <a href="return.php">Return Books</a>
-
-    
+    <?php include('dashboard.php'); ?>
 </body>
 </html>
