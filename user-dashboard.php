@@ -102,7 +102,7 @@ mysqli_close($conn);
             </div>
             <div class="row" style="margin-top: 100px;">
                 <a href="books.php">
-                    <div class="col-md-4 col-sm-4 col-xs-6">
+                    <div class="col-md-3 col-sm-4 col-xs-6">
                         <div class="alert alert-success back-widget-set text-center">
                             <i class="fa fa-book fa-5x"></i>
                             <h3><?php echo htmlentities($totalBooks); ?></h3>
@@ -110,7 +110,7 @@ mysqli_close($conn);
                         </div>
                     </div>
                 </a>
-                <div class="col-md-4 col-sm-4 col-xs-6">
+                <div class="col-md-3 col-sm-4 col-xs-6">
                     <div class="alert alert-warning back-widget-set text-center">
                         <i class="fa fa-recycle fa-5x"></i>
                         <h3><?php echo htmlentities($notReturnedBooks); ?></h3>
@@ -118,11 +118,20 @@ mysqli_close($conn);
                     </div>
                 </div>
                 <a href="issued-books.php">
-                    <div class="col-md-4 col-sm-4 col-xs-6">
+                    <div class="col-md-3 col-sm-4 col-xs-6">
                         <div class="alert alert-success back-widget-set text-center">
                             <i class="fa fa-book fa-5x"></i>
                             <h3><?php echo htmlentities($notReturnedBooks); ?></h3>
                             Received Books
+                        </div>
+                    </div>
+                </a>
+                <a href="issued-books.php">
+                    <div class="col-md-3 col-sm-4 col-xs-6">
+                        <div class="alert alert-success back-widget-set text-center">
+                            <i class='fas fa-dollar-sign fa-5x'></i>
+                            <h3><?php echo htmlentities($notReturnedBooks); ?></h3>
+                            Payment Due
                         </div>
                     </div>
                 </a>

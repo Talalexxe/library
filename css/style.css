@@ -1,36 +1,4 @@
-﻿
-.color-palette {
-    color:#b8483c
-          #b8a245
-          #3c393e
-          #a6bd9e
-          #9c705d
-          #8da683
-          #be8f3c
-          #d99d29
-          #f2dcb1
-          #dc8920;
-}
-.error, .success {
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    text-align: center;
-}
-
-.error {
-    background-color: #f2dede;
-    color: #a94442;
-}
-
-.success {
-    background-color: #dff0d8;
-    color: #3c763d;
-}
-
-
-
-* {
+﻿* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -43,6 +11,24 @@ body {
     overflow-y: auto;
 }
 
+.delete-btn{
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 10px 10px 10px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.edit-btn{
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 10px 10px 10px;
+    cursor: pointer;
+}
 
 .navbar{
     display: flex;
@@ -52,19 +38,18 @@ body {
 }
 
 .reg-container {
-    position: relative; 
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh; 
 }
 
 .log-container {
-    position: relative; 
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh; 
 }
-
 .set-radius-zero {
     border-radius:0px;
     -moz-border-radius:0px;
@@ -127,6 +112,24 @@ border: 1px solid black;
 }
 
 
+.error, .success {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.error {
+    background-color: #f2dede;
+    color: #a94442;
+}
+
+.success {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+
+
 
 /* Registration CSS */
 .registration-box {
@@ -166,7 +169,7 @@ border: 1px solid black;
 
 .registration-form input[type="submit"] {
     width: 50%;
-    margin-left: 25%; /* Center horizontally */
+    margin-left: 25%;
     margin-top: 15px;
     background-color: #9c705d;
     color: #ffffff;
@@ -219,12 +222,11 @@ border: 1px solid black;
     font-size: 14px;
 }
 
-
-input[type="submit"] {
+.login-form input[type="submit"] {
     width: 50%;
-    margin-left: 25%; /* Center horizontally */
+    margin-left: 25%;
     margin-top: 15px;
-    background-color: #9c705d;
+    background-color: #dc8920;
     color: #ffffff;
     padding: 10px 15px;
     border: none;
@@ -233,8 +235,171 @@ input[type="submit"] {
     font-size: 14px;
     transition: background-color 0.3s;
 }
-
-
 .login-form button:hover {
     background-color: #b8483c; 
 }
+
+
+/* Book Containers */
+
+#edit-container {
+    display: none;
+    position: fixed;
+    width: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #b8a245;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    overflow-y: auto;
+}
+
+
+#close-edit-container {
+    float: right;
+    display: inline-end;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    background-color: #d99d29;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+#edit-form label {
+    display: block;
+}
+
+#edit-form input[type="text"],
+#edit-form input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 4px;
+}
+#edit-form input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+}
+
+.smt{
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 4px;
+}
+
+
+#edit-form input[type="submit"] {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #00BF63;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#edit-form input[type="submit"]:hover {
+    background-color: #00542B;
+}
+
+#add-container {
+    display: none;
+    position: fixed;
+    max-width: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #a6bd9e;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+}
+
+#add-book-btn{
+    color: white;
+    margin-top: 15px;    
+    margin-bottom: 25px;  
+    border-radius: 5px;
+    border: none;
+    background-color: #CAAA08;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 25px;
+    float: inline-end;
+    cursor: pointer;
+}
+
+#close-add-container {
+    float: right;
+    display: inline-end;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    background-color: #00BF63;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+#add-form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#add-form input[type="text"],
+#add-form input[type="number"],
+#add-form input[type="date"],
+#add-form input[type="time"], 
+#add-form input[type="textarea"]{
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: none;
+}
+
+#add-form input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 4px;
+}
+
+#add-form input[type="submit"] {
+    display: block;
+    padding: 10px;
+    background-color: #F2CB07;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#add-form input[type="submit"]:hover {
+    background-color: #caaa08;
+}
+
+
+.book-cover{
+    height: 75px;
+}
+
+.center-text {
+    text-align: center;
+  }
+
+  .center-image {
+    text-align: center;
+  }
+
+  

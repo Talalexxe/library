@@ -2,7 +2,8 @@ CREATE DATABASE library;
 USE library;
 
 CREATE TABLE `books` (
-  `BookID` int(11) NOT NULL PRIMARY KEY,
+  `BookID` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,  
+  image VARCHAR(255),
   `Title` varchar(500) NOT NULL,
   `ISBN` int(13) NOT NULL,
   `Author` varchar(500) NOT NULL,
@@ -12,7 +13,7 @@ CREATE TABLE `books` (
 );
 
 CREATE TABLE `users` (
-  `UserID` int(11) NOT NULL PRIMARY KEY,
+  `UserID` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `FirstName` varchar(100) NOT NULL,
   `LastName` varchar(100) NOT NULL,
   `Username` varchar(100) NOT NULL,
@@ -23,7 +24,7 @@ CREATE TABLE `users` (
 );
 
 CREATE TABLE `borrowed_books` (
-  `LoanID` int(11) NOT NULL PRIMARY KEY,
+  `LoanID` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `BookID` int(11) NOT NULL,
   `UserID` int(11) NOT NULL,
   `DateBorrowed` date NOT NULL,
@@ -45,7 +46,7 @@ END;
 DELIMITER ;
 
 CREATE TABLE `fines` (
-  `FineID` int(11) NOT NULL PRIMARY KEY,
+  `FineID` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `UserID` int(11) NOT NULL,
   `LoanID` int(11) NOT NULL,
   `AmountDue` float NOT NULL,
@@ -74,21 +75,27 @@ END;
 //
 DELIMITER ;
 
-INSERT INTO `books` (`BookID`, `Title`, `ISBN`, `Author`, `Genre`, `Publisher`, `Quantity`)
-VALUES
-(1, 'Book 1 Title', 1234567890123, 'Author 1', 'Genre 1', 'Publisher 1', 5),
-(2, 'Book 2 Title', 2345678901234, 'Author 2', 'Genre 2', 'Publisher 2', 3),
-(3, 'Book 3 Title', 3456789012345, 'Author 3', 'Genre 1', 'Publisher 1', 2),
-(4, 'Book 4 Title', 4567890123456, 'Author 4', 'Genre 2', 'Publisher 2', 1),
-(5, 'Book 5 Title', 5678901234567, 'Author 1', 'Genre 3', 'Publisher 3', 4),
-(6, 'Book 6 Title', 6789012345678, 'Author 2', 'Genre 3', 'Publisher 3', 2),
-(7, 'Book 7 Title', 7890123456789, 'Author 5', 'Genre 4', 'Publisher 4', 3),
-(8, 'Book 8 Title', 8901234567890, 'Author 6', 'Genre 4', 'Publisher 4', 6);
 
-INSERT INTO `users` (`UserID`, `FirstName`, `LastName`, `Username`, `Email`, `PhoneNumber`, `Password`, `UserRole`)
+INSERT INTO `books` ( `image`, `Title`, `ISBN`, `Author`, `Genre`, `Publisher`, `Quantity`) 
 VALUES
-(1, 'Admin', 'User', 'adminuser', 'admin@example.com', '1234567890', 'adminpassword', 'Admin');
+('resources/silent-patient.jpg', 'The Silent Patient', 2147483647, 'Alex Michaelides', 'Thriller', 'Celadon Books', 0),
+('resources/becoming.jpg', 'Becoming', 2147483647, 'Michelle Obama', 'Memoir', 'Crown Publishing Group', 3),
+('resources/educated.jpg', 'Educated', 2147483647, 'Tara Westover', 'Biography', 'Random House', 1),
+('resources/CK-3.webp', 'The Great Gatsby', 2147483647, 'F. Scott Fitzgerald', 'Classic', 'Scribner', 4),
+('resources/martian.jpg', 'The Martian', 2147483647, 'Andy Weir', 'Science Fiction', 'Crown Publishing', 2),
+('resources/train.png', 'The Girl on the Train', 2147483647, 'Paula Hawkins', 'Mystery', 'Riverhead Books', 3),
+('resources/sapiens.jpg', 'Sapiens: A Brief History of Humankind', 2147483647, 'Yuval Noah Harari', 'History', 'Harper', 6);
+COMMIT;
 
-INSERT INTO `users` (`UserID`, `FirstName`, `LastName`, `Username`, `Email`, `PhoneNumber`, `Password`, `UserRole`)
+
+INSERT INTO `users` (`FirstName`, `LastName`, `Username`, `Email`, `PhoneNumber`, `Password`, `UserRole`)
 VALUES
-(2, 'Patron', 'User', 'patronuser', 'patron@example.com', '9876543210', 'patronpassword', 'Patron');
+('Admin', 'User', 'adminuser', 'admin@example.com', '1234567890', '1234', 'Admin');
+
+INSERT INTO `users` (`FirstName`, `LastName`, `Username`, `Email`, `PhoneNumber`, `Password`, `UserRole`)
+VALUES
+('Patron', 'User', 'patronuser', 'patron@example.com', '9876543210', '1234', 'Patron');
+
+INSERT INTO `borrowed_books` ( `BookID`, `UserID`, `DateBorrowed`, `DateDue`, `DateReturned`, `LoanStatus`) VALUES
+(2, 2, '2023-08-21', '2023-10-04', '0000-00-00', 'Not Returned');
+

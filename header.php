@@ -1,9 +1,8 @@
-<?php if($user_role === "Patron" )
-{
-?>    
+<?php if($user_role === "patron"){ ?>
+   
 <section class="menu-section" style="padding-top: 15px; " >
         <div class="navbar">
-            <a href="index.php">
+            <a href="dashboard.php">
                 <img class="logo-image" id="logo" src="image/logo1.png" alt="Logo" style="max-height:90px;">
             </a>   
             <div class="container">
@@ -11,14 +10,11 @@
                     <div class="col-md-12">
                         <div class="navbar-collapse collapse ">
                             <ul id="menu-top" class="nav navbar-nav navbar-right">
-                                <li><a href="dashboard.php" class="menu-top-active">DASHBOARD</a></li>
-                                <li><a href="issued-books.php">Received Books</a></li>
+                                <li><a href="user-dashboard.php" class="menu-top-active">DASHBOARD</a></li>
                                 <li>
                                     <a href="#" class="dropdown-toggle" id="ddlmenuItem" data-toggle="dropdown"> Account <i class="fa fa-angle-down"></i></a>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="ddlmenuItem">
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="my-profile.php">My Profile</a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="change-password.php">Change Password</a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="logout.php">Log Out</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);p" onclick="confirmLogout()">Log Out</a></li>
                                     </ul>
                                 </li>
 
@@ -29,12 +25,29 @@
             </div>
         </div>
     </section>
-    <?php } else if($user_role === "Admin" )
+        <!-- Log Out Script -->
+        <script>
+        function confirmLogout() {
+            var result = confirm("Are you sure you want to log out?");
+            if (result) {
+                // If the user confirms, redirect to logout.php
+                window.location.href = "logout.php?logout=true";
+            } else {
+                // If the user cancels, close the dropdown and do nothing else
+                var dropdown = document.getElementById("myDropdown");
+                if (dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                }
+            }
+        }
+    </script>
+
+    <?php } else if($user_role === "admin" )
 {
 ?>    
 <section class="menu-section" style="padding-top: 15px; " >
         <div class="navbar">
-            <a href="index.php">
+            <a href="admin-dashboard.php">
                 <img class="logo-image" id="logo" src="image/logo1.png" alt="Logo" style="max-height:90px;">
             </a>   
             <div class="container">
@@ -42,23 +55,36 @@
                     <div class="col-md-12">
                         <div class="navbar-collapse collapse ">
                             <ul id="menu-top" class="nav navbar-nav navbar-right">
-                                <li><a href="dashboard.php" class="menu-top-active">DASHBOARD</a></li>
-                                <li><a href="issued-books.php">Borrowed Books</a></li>
+                                <li><a href="admin-dashboard.php" >DASHBOARD</a></li>                             
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="book.php">Manage Books</a></li>
                                 <li>
                                     <a href="#" class="dropdown-toggle" id="ddlmenuItem" data-toggle="dropdown"> Account <i class="fa fa-angle-down"></i></a>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="ddlmenuItem">
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="my-profile.php">My Profile</a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="change-password.php">Change Password</a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="logout.php">Log Out</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);p" onclick="confirmLogout()">Log Out</a></li>
                                     </ul>
                                 </li>
-
-                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+            <!-- Log Out Script -->
+    <script>
+        function confirmLogout() {
+            var result = confirm("Are you sure you want to log out?");
+            if (result) {
+                // If the user confirms, redirect to logout.php
+                window.location.href = "logout.php?logout=true";
+            } else {
+                // If the user cancels, close the dropdown and do nothing else
+                var dropdown = document.getElementById("myDropdown");
+                if (dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                }
+            }
+        }
+    </script>
+
     </section>
     <?php } else { ?>
         <section class="menu-section"style="padding-top: 15px; ">

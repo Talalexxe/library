@@ -29,12 +29,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($password === $dbPassword) {
                 $_SESSION['UserId'] = $userId;
                 $_SESSION['UserRole'] = $userRole;
+                
 
                 if ($userRole === 'Admin') {
                     $successMessage = "Login successful! You can now log in.";
-                    header("refresh:1.5;url=admin-dashboard.php");
+                    $_SESSION['UserId'] = $userId;
+                    $_SESSION['UserRole'] = 'admin';
+                    header("refresh:1.5;url=books.php");
                 } else {
                     $successMessage = "Login successful! You can now log in.";
+                    $_SESSION['UserId'] = $userId;
+                    $_SESSION['UserRole'] = 'patron';
                     header("refresh:1.5;url=user-dashboard.php");
                 }
             } else {
