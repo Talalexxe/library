@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
         // Return the book data as JSON
         echo json_encode($bookData);
     } else {
-        echo json_encode(array('Success' => 'Book Borrowed'));
+        echo json_encode(array('Success' => 'Book Borrowed!'));
     }
 
     mysqli_stmt_close($stmt);

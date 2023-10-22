@@ -21,21 +21,29 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 if (isset($_POST['add_new_book'])) {
     $newTitle = mysqli_real_escape_string($conn, $_POST['new_title']);
-    $newCover = mysqli_real_escape_string($conn, $_POST['new_cover']);
     $newISBN = mysqli_real_escape_string($conn, $_POST['new_isbn']);
     $newAuthor = mysqli_real_escape_string($conn, $_POST['new_author']);
     $newGenre = mysqli_real_escape_string($conn, $_POST['new_genre']);
     $newPublisher = mysqli_real_escape_string($conn, $_POST['new_publisher']);
     $newQuantity = (int)$_POST['new_quantity'];
 
-    // Create an INSERT query to add the new book to the 'books' table
-    $insert_query = "INSERT INTO books (Cover, Title, ISBN, Author, Genre, Publisher, Quantity) 
-                    VALUES ('$newCover', '$newTitle', '$newISBN', '$newAuthor', '$newGenre', '$newPublisher', $newQuantity)";
+    
+    $targetDirectory = "resources/"; 
+    $newCover = $targetDirectory . basename($_FILES["new_cover"]["name"]);
 
-    if (mysqli_query($conn, $insert_query)) {
-        $successMessage = "New Book Added Successfully!";
+    if (move_uploaded_file($_FILES["new_cover"]["tmp_name"], $newCover)) {
+
+        $insert_query = "INSERT INTO books (image, Title, ISBN, Author, Genre, Publisher, Quantity) 
+                        VALUES ('$newCover', '$newTitle', '$newISBN', '$newAuthor', '$newGenre', '$newPublisher', $newQuantity)";
+
+        if (mysqli_query($conn, $insert_query)) {
+            $successMessage = "New Book Added Successfully!";            
+            header("refresh:0.5;url=books.php");
+        } else {
+            $errorMessage = "Error Adding New Book: " . mysqli_error($conn);
+        }
     } else {
-        $errorMessage = "Error Adding New Book: " . mysqli_error($conn);
+        $errorMessage = "Error uploading the book cover.";
     }
 } else if (isset($_POST['edit_book'])) {
     $editedId = mysqli_real_escape_string($conn, $_POST['id']);
@@ -82,6 +90,7 @@ if (isset($_POST['add_new_book'])) {
     $delete_query = "DELETE FROM books WHERE BookID = $bookId";
     if (mysqli_query($conn, $delete_query)) {
         $successMessage = "Book Deleted Successfully!";
+        header("refresh:0.5;url=books.php");
     } else {
         $errorMessage = "Error Deleting Book: " . mysqli_error($conn);
     }
@@ -126,30 +135,6 @@ if (isset($_POST['add_new_book'])) {
                 closeEditBookPopup();
             });
 
-            function openEditBookPopup(bookId) {
-                // Retrieve book data based on bookId and populate the fields
-                $.ajax({
-                    url: "get_book_data.php", // Replace with the actual PHP script to fetch book data
-                    method: "POST",
-                    data: { id: bookId },
-                    success: function (response) {
-                        var bookData = JSON.parse(response);
-                        $("#id").val(bookData.BookID);
-                        $("#title").val(bookData.Title);
-                        $("#cover").val(bookData.Cover);
-                        $("#isbn").val(bookData.ISBN);
-                        $("#author").val(bookData.Author);
-                        $("#genre").val(bookData.Genre);
-                        $("#publisher").val(bookData.Publisher);
-                        $("#quantity").val(bookData.Quantity);
-                        $("#edit-container").fadeIn();
-                    },
-                    error: function (xhr, status, error) {
-                        alert("Error fetching book data: " + error);
-                    }
-                });
-            }
-
             function closeEditBookPopup() {
                 $("#edit-container").fadeOut();
             }
@@ -163,7 +148,7 @@ if (isset($_POST['add_new_book'])) {
             <div class="row pad-botm">
                 <div class="col-md-12">
                     <?php if($user_role === "admin" ){?>
-                        <h4 class="header-line">Manage Books</h4>
+                        <h4 style="color: white;" class="header-line">Manage Books</h4>
                     <?php } ?>
                     <?php if($user_role === "patron" ){?>
                         <h4 style="color: white;" class="header-line">View Books</h4>
@@ -252,7 +237,7 @@ if (isset($_POST['add_new_book'])) {
         <div id="add-content">
             <form id="add-form" action="books.php" method="post" enctype="multipart/form-data">
                 <input type="text" name="new_title" placeholder="Title" required>
-                <input type="text" name="new_cover" placeholder="Cover Image URL" required>
+                <input type="File" name="new_cover"id="new_cover" placeholder="Cover Image URL" accept="image/*" required>
                 <input type="text" name="new_isbn" placeholder="ISBN" required>
                 <input type="text" name="new_author" placeholder="Author" required>
                 <input type="text" name="new_genre" placeholder="Genre" required>

@@ -154,7 +154,7 @@ mysqli_close($conn);
         <div class="container">
             <div class="row pad-botm">
                 <div class="col-md-12">
-                    <h4 class="header-line">User DASHBOARD</h4>
+                    <h4 style="color: white;" class="header-line">User DASHBOARD</h4>
                 </div>
             </div>
             <div class="row" style="margin-top: 100px;">

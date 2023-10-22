@@ -7,7 +7,7 @@ CREATE TABLE `books` (
   `BookID` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,  
   image VARCHAR(255),
   `Title` varchar(500) NOT NULL,
-  `ISBN` int(13) NOT NULL,
+  `ISBN`  varchar (13),
   `Author` varchar(500) NOT NULL,
   `Genre` varchar(500) NOT NULL,
   `Publisher` varchar(500) NOT NULL,
@@ -67,15 +67,16 @@ CREATE TABLE payments (
     FOREIGN KEY (UserID) REFERENCES users(UserID)
 );
 
-INSERT INTO `books` ( `image`, `Title`, `ISBN`, `Author`, `Genre`, `Publisher`, `Quantity`) 
+
+INSERT INTO `books` (`image`, `Title`, `ISBN`, `Author`, `Genre`, `Publisher`, `Quantity`)
 VALUES
-('resources/silent-patient.jpg', 'The Silent Patient', 2147483647, 'Alex Michaelides', 'Thriller', 'Celadon Books', 0),
-('resources/becoming.jpg', 'Becoming', 2147483647, 'Michelle Obama', 'Memoir', 'Crown Publishing Group', 3),
-('resources/educated.jpg', 'Educated', 2147483647, 'Tara Westover', 'Biography', 'Random House', 1),
-('resources/CK-3.webp', 'The Great Gatsby', 2147483647, 'F. Scott Fitzgerald', 'Classic', 'Scribner', 4),
-('resources/martian.jpg', 'The Martian', 2147483647, 'Andy Weir', 'Science Fiction', 'Crown Publishing', 2),
-('resources/train.png', 'The Girl on the Train', 2147483647, 'Paula Hawkins', 'Mystery', 'Riverhead Books', 3),
-('resources/sapiens.jpg', 'Sapiens: A Brief History of Humankind', 2147483647, 'Yuval Noah Harari', 'History', 'Harper', 6);
+('resources/silent-patient.jpg', 'The Silent Patient', '9781250301697', 'Alex Michaelides', 'Thriller', 'Celadon Books', 0),
+('resources/becoming.jpg', 'Becoming', '9781524763138', 'Michelle Obama', 'Memoir', 'Crown Publishing Group', 3),
+('resources/educated.jpg', 'Educated', '9780399590504', 'Tara Westover', 'Biography', 'Random House', 1),
+('resources/CK-3.webp', 'The Great Gatsby', '9780743273565', 'F. Scott Fitzgerald', 'Classic', 'Scribner', 4),
+('resources/martian.jpg', 'The Martian', '9780553418026', 'Andy Weir', 'Science Fiction', 'Crown Publishing', 2),
+('resources/train.png', 'The Girl on the Train', '9781594634024', 'Paula Hawkins', 'Mystery', 'Riverhead Books', 3),
+('resources/sapiens.jpg', 'Sapiens: A Brief History of Humankind', '9780062316097', 'Yuval Noah Harari', 'History', 'Harper', 6);
 COMMIT;
 
 

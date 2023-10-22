@@ -74,12 +74,20 @@ try {
                                             <th>Title</th>
                                             <th>Author</th>
                                             <th>Genre</th>
+                                            <th>Due Date</th>
                                             <th>Actions</th>
                                         </tr>
                                         <tr class="book-rows">
                                             <td style="display: table-cell;vertical-align: middle" ><?php echo $book['Title']; ?></td>
                                             <td style="display: table-cell;vertical-align: middle" ><?php echo $book['Author']; ?></td>
                                             <td style="display: table-cell;vertical-align: middle" ><?php echo $book['Genre']; ?></td>
+                                            <td style="display: table-cell; vertical-align: middle">
+                                                <?php
+                                                $dateDue = $book['DateDue'];
+                                                $formattedDate = date('F d Y', strtotime($dateDue));
+                                                echo $formattedDate;
+                                                ?>
+                                            </td>
                                             <td>
                                                 <button style="margin-left: 35%;" class="return-btn" data-id="<?php echo $book['BookID']; ?>">Return</button>
                                             </td>                                              

@@ -11,7 +11,7 @@
         $password = $_POST["password"];
 
 
-        $sql = "INSERT INTO users(FirstName,LastName,Username,Email,PhoneNumber,Password) VALUES ('$fname','$lname','$uname','$email','$phone','$password')";
+        $sql = "INSERT INTO users(FirstName,LastName,Username,Email,PhoneNumber,Password, UserRole) VALUES ('$fname','$lname','$uname','$email','$phone','$password','patron')";
 
         $query = mysqli_query($conn,$sql);
         
