@@ -103,10 +103,6 @@ if (isset($_POST['add_new_book'])) {
     <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/fontawesome.js" integrity="sha384-dPBGbj4Uoy1OOpM4+aRGfAOc0W37JkROT+3uynUgTHZCHZNMHfGXsmmvYTffZjYO" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
-            $("#add-movie-btn").click(function () {
-                openAddBookPopup();
-            });
-
             $("#close-add-container").click(function () {
                 closeAddBookPopup();
             });

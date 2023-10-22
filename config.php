@@ -37,24 +37,49 @@ if (isset($_SESSION['UserId'])) {
         echo "Query failed: " . mysqli_error($conn);
     }
 }
-
 $user_id = $_SESSION['UserId'];
 
-$sql_overdue = "SELECT * FROM borrowed_books WHERE UserId AND DateDue < CURRENT_DATE";
-$query_overdue = mysqli_query($conn,$sql_overdue);
+// Calculate the total overdue fine as before
+$sql_overdue = "SELECT BookID, DateDue FROM borrowed_books WHERE UserID = $user_id AND DateDue < CURRENT_DATE";
+$query_overdue = mysqli_query($conn, $sql_overdue);
 $daily_rate = 150;
 $current_date = strtotime(date('Y-m-d'));
+$total_fine = 0;
 
-while($row = mysqli_fetch_assoc($query_overdue)){
-    $due_date = strtotime ($row['DateDue']);
+$overdue_books = array();
+
+while ($row = mysqli_fetch_assoc($query_overdue)) {
+    $overdue_books[] = $row;
+}
+
+foreach ($overdue_books as $book) {
+    $book_id = $book['BookID'];
+    $due_date = strtotime($book['DateDue']);
 
     $diff = $current_date - $due_date;
     $days = floor($diff / (60 * 60 * 24));
 
     $fine_amt = $daily_rate * $days;
 
-    $sql_fine = "UPDATE fines SET Fines = $fine_amt WHERE UserID = $user_id" ;
-    $query_fine = mysqli_query($conn,$sql_fine);
-
+    $total_fine += $fine_amt;
 }
+
+// Check the payment table for any payments made by the user
+$sql_payment = "SELECT SUM(amount) as total_payment FROM payments WHERE UserID = $user_id";
+$query_payment = mysqli_query($conn, $sql_payment);
+$payment_row = mysqli_fetch_assoc($query_payment);
+$total_payment = $payment_row['total_payment'];
+
+// Subtract the total_payment from the total_fine
+$total_fine -= $total_payment;
+
+// Now, proceed with the update of the user's total fine
+$sql_update_fine = "UPDATE users SET TotalFines = $total_fine WHERE UserID = $user_id";
+$query_update_fine = mysqli_query($conn, $sql_update_fine);
+
+if (!$query_update_fine) {
+    echo "Error updating total fine: " . mysqli_error($conn);
+}
+
+
 ?>

@@ -22,7 +22,8 @@ CREATE TABLE `users` (
   `Email` varchar(100) NOT NULL,
   `PhoneNumber` varchar(25) NOT NULL,
   `Password` varchar(20) NOT NULL,
-  `UserRole` enum('Admin', 'Patron') NOT NULL
+  `UserRole` enum('Admin', 'Patron') NOT NULL,
+  `TotalFines` FLOAT NOT NULL
 );
 
 CREATE TABLE `borrowed_books` (
@@ -57,13 +58,14 @@ CREATE TABLE `returned_books` (
   FOREIGN KEY `UserID` (`UserID`) REFERENCES `users`(`UserID`)
 );
 
-CREATE TABLE fines (
-    FineID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+
+CREATE TABLE payments (
+    PaymentID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     UserID INT NOT NULL,
-    Fines FLOAT NOT NULL,
+    Amount INT NOT NULL,
+    PaymentDate DATE NOT NULL,
     FOREIGN KEY (UserID) REFERENCES users(UserID)
 );
-
 
 INSERT INTO `books` ( `image`, `Title`, `ISBN`, `Author`, `Genre`, `Publisher`, `Quantity`) 
 VALUES
