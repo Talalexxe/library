@@ -73,7 +73,7 @@ if (isset($_POST['add_new_book'])) {
 
     if (mysqli_query($conn, $update_query)) {
         $successMessage = "Book Updated Successfully!";
-        header("refresh:1.5;url=books.php");
+        header("refresh:0.5;url=books.php");
     } else {
         $errorMessage = "Error Updating Book: " . mysqli_error($conn);
     }
