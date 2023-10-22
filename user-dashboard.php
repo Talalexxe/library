@@ -14,7 +14,8 @@ if (!$conn) {
 
 try {
     // SQL query to count the number of books not returned for the current user
-    $sql = "SELECT COUNT(*) AS notReturnedBooks FROM borrowed_books WHERE UserID = $user_id AND LoanStatus = 'Not Returned'";
+    $sql = "SELECT COUNT(*) AS notReturnedBooks FROM borrowed_books WHERE UserID = $user_id AND CURRENT_DATE > DateDue";
+
 
     // Execute the query
     $result = mysqli_query($conn, $sql);
@@ -55,9 +56,10 @@ try {
 }
 
 
+
 try {
-    // SQL query to count the number of books issued to the current user
-    $sql = "SELECT COUNT(*) AS issuedBooks FROM borrowed_books WHERE UserID = $user_id";
+    // SQL query to sum the FineAmount for the current user
+    $sql = "SELECT Fines AS totalFines FROM fines WHERE UserID = $user_id";
 
     // Execute the query
     $result = mysqli_query($conn, $sql);
@@ -66,15 +68,21 @@ try {
         // Fetch the result into an associative array
         $row = mysqli_fetch_assoc($result);
 
-        // Store the count of issued books in a PHP variable
-        $issuedBooks = $row['issuedBooks'];
+        // Store the total fines in a PHP variable
+        $totalFines = $row['totalFines'];
+
+        // Check if totalFines is null and set it to 0 if needed
+        if ($totalFines === null) {
+            $totalFines = 0;
+        }
     } else {
         echo "Query failed: " . mysqli_error($conn);
     }
-
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();
 }
+
+
 
 mysqli_close($conn);
 ?>
@@ -115,13 +123,13 @@ mysqli_close($conn);
                         <i class="fa fa-recycle fa-5x"></i>
                         <h3><?php echo htmlentities($notReturnedBooks); ?></h3>
                         Books Not Returned Yet
-                    </div>
+                    </div>     
                 </div>
-                <a href="issued-books.php">
+                <a href="return.php">
                     <div class="col-md-3 col-sm-4 col-xs-6">
                         <div class="alert alert-success back-widget-set text-center">
                             <i class="fa fa-book fa-5x"></i>
-                            <h3><?php echo htmlentities($notReturnedBooks); ?></h3>
+                            <h3><?php echo htmlentities($issuedBooks); ?></h3>
                             Received Books
                         </div>
                     </div>
@@ -130,7 +138,7 @@ mysqli_close($conn);
                     <div class="col-md-3 col-sm-4 col-xs-6">
                         <div class="alert alert-success back-widget-set text-center">
                             <i class='fas fa-dollar-sign fa-5x'></i>
-                            <h3><?php echo htmlentities($notReturnedBooks); ?></h3>
+                            <h3>$<?php echo number_format($totalFines, 2); ?></h3> 
                             Payment Due
                         </div>
                     </div>
@@ -138,6 +146,7 @@ mysqli_close($conn);
             </div>
         </div>
     </div>
+
     <?php include('footer.php'); ?>
     <script src="js/jquery-1.10.2.js"></script>
     <script src="js/bootstrap.js"></script>

@@ -6,6 +6,7 @@ if (isset($_POST['id'])) {
     $book_id = $_POST['id'];
     $user_id = $_SESSION['UserId'];
 
+    
     // Check book quantity
     $check_quantity_query = "SELECT Quantity FROM books WHERE BookID = ?";
     $stmt = mysqli_prepare($conn, $check_quantity_query);
@@ -38,7 +39,6 @@ if (isset($_POST['id'])) {
                             $query_update_quantity = mysqli_stmt_execute($stmt);
 
                             if ($query_update_quantity) {
-                                // Successfully borrowed the book
                                 header("Location: borrow.php");
                                 exit();
                             } else {

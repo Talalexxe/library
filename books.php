@@ -206,34 +206,40 @@ if (isset($_POST['add_new_book'])) {
                                             <th>Author</th>
                                             <th>Genre</th>
                                             <th>Publisher</th>
-                                            <th>Quantity</th>
+                                            <?php if($user_role === "admin" ){?>
+                                                <th>Quantity</th>
+                                            <?php } ?>
                                             <th>Actions</th>
                                         </tr>
-                                        <?php foreach ($books as $book) { ?>
+                                        <?php foreach ($books as $book) {
+                                            if ($book['Quantity'] > 0) { 
+                                            ?>
                                             <tr class="book-rows">
                                                 <td class="center-image">
-                                                    <img  class="book-cover" src="<?php echo $book['image']; ?>" alt="Book Cover">
+                                                    <img class="book-cover" src="<?php echo $book['image']; ?>" alt="Book Cover">
                                                 </td>
                                                 <td style="padding-top: 2.85%;" class="book-title center-text"><?php echo $book['Title']; ?></td>
                                                 <td style="padding-top: 2.85%;" class="book-ISBN center-text"><?php echo ($book['ISBN']); ?></td>
                                                 <td style="padding-top: 2.85%;" class="book-author center-text"><?php echo $book['Author']; ?></td>
                                                 <td style="padding-top: 2.85%;" class="book-genre center-text"><?php echo $book['Genre']; ?></td>
                                                 <td style="padding-top: 2.85%;" class="book-publisher center-text"><?php echo $book['Publisher']; ?></td>
-                                                <td style="padding-top: 2.85%;" class="book-quantity center-text"><?php echo $book['Quantity']; ?></td>
                                                 <?php if($user_role === "admin" ){?>
+                                                    <td style="padding-top: 2.85%;" class="book-quantity center-text"><?php echo $book['Quantity']; ?></td>
+                                                <?php } ?>
+                                                <?php if ($user_role === "admin") { ?>
                                                     <td>
                                                         <button style="margin-top: 11%;" class="edit-btn" data-id="<?php echo $book['BookID']; ?>">Edit</button>
                                                         <button class="delete-btn" data-id="<?php echo $book['BookID']; ?>">Delete</button>
                                                     </td>
                                                 <?php } ?>
-                                                <?php if($user_role === "patron" ){?>
+                                                <?php if ($user_role === "patron") { ?>
                                                     <td>
                                                         <button class="borrow-btn" data-id="<?php echo $book['BookID']; ?>">Borrow</button>
                                                     </td>
-                                                <?php } ?>                                                
+                                                <?php } ?>
                                             </tr>
-                                        <?php } ?>
-                                    </table>
+                                        <?php } }?>
+                                    </table>                                    
                                 </div>
                             </div>
                         </div>
@@ -343,19 +349,23 @@ if (isset($_POST['add_new_book'])) {
         $(".borrow-btn").click(function () {
             var bookId = $(this).data('id');
 
-            // Send an AJAX request to the PHP script to handle book borrowing
+            var confirmReturn = confirm("Are you sure you want to return this book?");
+            
+            if (confirmReturn){
             $.ajax({
                 type: "POST",
                 url: "borrow-book.php", // Create a PHP script to handle book borrowing
                 data: { id: bookId },
                 success: function (response) {
-                    alert(response); // Display the response message (success or error)
-                    location.reload(); // Refresh the page to reflect changes
+                    alert(response); 
+                    location.reload();
                 },
                 error: function (xhr, status, error) {
-                    alert("Error borrowing book: " + error);
+                    alert("Book Borrowed Successfully" );
+                    location.reload();
                 }
             });
+            }
         });
 
 

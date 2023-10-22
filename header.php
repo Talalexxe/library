@@ -10,7 +10,9 @@
                     <div class="col-md-12">
                         <div class="navbar-collapse collapse ">
                             <ul id="menu-top" class="nav navbar-nav navbar-right">
-                                <li><a href="user-dashboard.php" class="menu-top-active">DASHBOARD</a></li>
+                                <li><a href="user-dashboard.php">DASHBOARD</a></li>
+                                <li><a href="books">Book Listing</a></li>
+                                <li><a href="return">Borrowed Books</a></li>
                                 <li>
                                     <a href="#" class="dropdown-toggle" id="ddlmenuItem" data-toggle="dropdown"> Account <i class="fa fa-angle-down"></i></a>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="ddlmenuItem">

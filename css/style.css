@@ -402,4 +402,20 @@ border: 1px solid black;
     text-align: center;
   }
 
-  
+.borrow-btn{
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 10px 10px 10px;
+    cursor: pointer;
+}
+
+.return-btn{
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 10px 10px 10px;
+    cursor: pointer;
+}

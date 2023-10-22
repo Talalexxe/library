@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS library;
+
 CREATE DATABASE library;
 USE library;
 
@@ -25,12 +27,10 @@ CREATE TABLE `users` (
 
 CREATE TABLE `borrowed_books` (
   `LoanID` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `BookID` int(11) NOT NULL,
-  `UserID` int(11) NOT NULL,
+  `BookID` int NOT NULL,
+  `UserID` int NOT NULL,
   `DateBorrowed` date NOT NULL,
   `DateDue` date NOT NULL,
-  `DateReturned` date NOT NULL,
-  `LoanStatus` enum('Returned', 'Not Returned') NOT NULL,
   FOREIGN KEY (`BookID`) REFERENCES `books`(`BookID`),
   FOREIGN KEY (`UserID`) REFERENCES `users`(`UserID`)
 );
@@ -45,35 +45,24 @@ END;
 //
 DELIMITER ;
 
-CREATE TABLE `fines` (
-  `FineID` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `UserID` int(11) NOT NULL,
-  `LoanID` int(11) NOT NULL,
-  `AmountDue` float NOT NULL,
-  `Payment` date NOT NULL,
-  FOREIGN KEY (`UserID`) REFERENCES `users`(`UserID`),
-  FOREIGN KEY (`LoanID`) REFERENCES `borrowed_books`(`LoanID`)
+CREATE TABLE `returned_books` (
+  `ReturnID` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `LoanID` int NOT NULL,
+  `BookID` int NOT NULL,
+  `UserID` int NOT NULL,
+  `ReturnDate` date NOT NULL,
+  `FineAmount` float NOT NULL,
+  FOREIGN KEY `LoanID` (`LoanID`)  REFERENCES `borrowed_books`(`LoanID`),
+  FOREIGN KEY `BookID` (`BookID`) REFERENCES `books`(`BookID`),
+  FOREIGN KEY `UserID` (`UserID`) REFERENCES `users`(`UserID`)
 );
 
-DELIMITER //
-CREATE TRIGGER UpdateFines
-BEFORE UPDATE ON borrowed_books
-FOR EACH ROW
-BEGIN
-    IF NEW.LoanStatus = 'Returned' AND NEW.DateReturned > NEW.DateDue THEN
-        SET @days_overdue = DATEDIFF(NEW.DateReturned, NEW.DateDue);
-        SET @fine_amount = @days_overdue * 55;
-        
-        -- Fetch the current AmountDue from the fines table
-        SELECT AmountDue INTO @current_amount FROM fines WHERE LoanID = NEW.LoanID;
-
-        -- Update the AmountDue in the fines table
-        SET @new_amount = @current_amount + @fine_amount;
-        UPDATE fines SET AmountDue = @new_amount WHERE LoanID = NEW.LoanID;
-    END IF;
-END;
-//
-DELIMITER ;
+CREATE TABLE fines (
+    FineID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    UserID INT NOT NULL,
+    Fines FLOAT NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES users(UserID)
+);
 
 
 INSERT INTO `books` ( `image`, `Title`, `ISBN`, `Author`, `Genre`, `Publisher`, `Quantity`) 
@@ -96,6 +85,6 @@ INSERT INTO `users` (`FirstName`, `LastName`, `Username`, `Email`, `PhoneNumber`
 VALUES
 ('Patron', 'User', 'patronuser', 'patron@example.com', '9876543210', '1234', 'Patron');
 
-INSERT INTO `borrowed_books` ( `BookID`, `UserID`, `DateBorrowed`, `DateDue`, `DateReturned`, `LoanStatus`) VALUES
-(2, 2, '2023-08-21', '2023-10-04', '0000-00-00', 'Not Returned');
+INSERT INTO `borrowed_books` ( `BookID`, `UserID`, `DateBorrowed`, `DateDue`) VALUES
+(2, 2, '2023-06-06', '2023-10-04');
 
