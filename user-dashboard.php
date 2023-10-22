@@ -101,8 +101,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["pay_submit"])) {
         $sql_insert_payment = "INSERT INTO payments (UserID, Amount, PaymentDate) VALUES ($user_id, $payment_amount, NOW())";
         $query_insert_payment = mysqli_query($conn, $sql_insert_payment);
 
-        if ($query_insert_payment) {
-            $payment_result = "Payment successful. Your new total fines: $new_total_fines";
+        if ($query_insert_payment) {            
+            header("refresh:0.1;url=user-dashboard.php");
         } else {
             $payment_result = "Error inserting payment record: " . mysqli_error($conn);
         }

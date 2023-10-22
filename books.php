@@ -334,9 +334,6 @@ if (isset($_POST['add_new_book'])) {
                     success: function (response) {
                         alert(response);
                         location.href = 'books.php';
-                    },
-                    error: function (xhr, status, error) {
-                        alert("Error deleting book: " + error);
                     }
                 });
             }
