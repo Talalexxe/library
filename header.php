@@ -56,8 +56,7 @@
                 <div class="row ">
                     <div class="col-md-12">
                         <div class="navbar-collapse collapse ">
-                            <ul id="menu-top" class="nav navbar-nav navbar-right">
-                                <li><a href="admin-dashboard.php" >DASHBOARD</a></li>                             
+                            <ul id="menu-top" class="nav navbar-nav navbar-right">                            
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="book.php">Manage Books</a></li>
                                 <li>
                                     <a href="#" class="dropdown-toggle" id="ddlmenuItem" data-toggle="dropdown"> Account <i class="fa fa-angle-down"></i></a>

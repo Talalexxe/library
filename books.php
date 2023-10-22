@@ -156,7 +156,7 @@ if (isset($_POST['add_new_book'])) {
         });
     </script>
 </head>
-<body>
+<body style="background-image: url('image/books-bg.jpg'); background-size: cover;" >
 <?php include('header.php');?>
     <div class="content-wrapper">
          <div class="container">
@@ -166,7 +166,7 @@ if (isset($_POST['add_new_book'])) {
                         <h4 class="header-line">Manage Books</h4>
                     <?php } ?>
                     <?php if($user_role === "patron" ){?>
-                        <h4 class="header-line">View Books</h4>
+                        <h4 style="color: white;" class="header-line">View Books</h4>
                     <?php } ?>
                     
                 </div>
@@ -230,7 +230,7 @@ if (isset($_POST['add_new_book'])) {
                                                 <?php } ?>
                                                 <?php if ($user_role === "patron") { ?>
                                                     <td>
-                                                        <button class="borrow-btn" data-id="<?php echo $book['BookID']; ?>">Borrow</button>
+                                                        <button style="margin-top: 15%;" class="borrow-btn" data-id="<?php echo $book['BookID']; ?>">Borrow</button>
                                                     </td>
                                                 <?php } ?>
                                             </tr>

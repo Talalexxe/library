@@ -55,12 +55,13 @@ try {
     <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/solid.js" integrity="sha384-/BxOvRagtVDn9dJ+JGCtcofNXgQO/CCCVKdMfL115s3gOgQxWaX/tSq5V8dRgsbc" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/fontawesome.js" integrity="sha384-dPBGbj4Uoy1OOpM4+aRGfAOc0W37JkROT+3uynUgTHZCHZNMHfGXsmmvYTffZjYO" crossorigin="anonymous"></script>
 </head>
-<body>
+<body style="background-image: url('image/return-bg.jpg'); background-size: cover;" >
     <?php include('header.php');?>
     <div class="content-wrapper">
          <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12">          
+                    <h4 style="color: white;" class="header-line">Return Log</h4>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Borrow Listing
@@ -76,9 +77,9 @@ try {
                                             <th>Actions</th>
                                         </tr>
                                         <tr class="book-rows">
-                                            <td><?php echo $book['Title']; ?></td>
-                                            <td><?php echo $book['Author']; ?></td>
-                                            <td><?php echo $book['Genre']; ?></td>
+                                            <td style="display: table-cell;vertical-align: middle" ><?php echo $book['Title']; ?></td>
+                                            <td style="display: table-cell;vertical-align: middle" ><?php echo $book['Author']; ?></td>
+                                            <td style="display: table-cell;vertical-align: middle" ><?php echo $book['Genre']; ?></td>
                                             <td>
                                                 <button style="margin-left: 35%;" class="return-btn" data-id="<?php echo $book['BookID']; ?>">Return</button>
                                             </td>                                              

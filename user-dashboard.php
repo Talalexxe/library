@@ -148,7 +148,7 @@ mysqli_close($conn);
         });
     </script>
 </head>
-<body>
+<body style="background-image: url('image/dash-bg.jpg'); background-size: cover;" >
     <?php include('header.php'); ?>
     <div class="content-wrapper">
         <div class="container">
